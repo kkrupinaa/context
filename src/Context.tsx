@@ -1,10 +1,19 @@
+import React, { useContext } from 'react';
 import { ReactElement } from 'react';
 
 type Theme = 'light' | 'dark';
 
-export function ThemeProvider(props: {
-    theme: Theme;
-    children: ReactElement;
-}) {}
+const themeContext = React.createContext('light' as Theme);
 
-export function useTheme(): Theme {}
+export function ThemeProvider(props: { theme: Theme; children: ReactElement }) {
+    return (
+        <themeContext.Provider value={props.theme}>
+            {props.children}
+        </themeContext.Provider>
+    );
+}
+
+export function useTheme(): Theme {
+    const theme = useContext(themeContext);
+    return theme;
+}
